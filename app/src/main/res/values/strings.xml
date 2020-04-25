@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calendarfy</string>
+    <string name="no_events">You have no events :(</string>
+    <string name="view_more">view more</string>
+</resources>

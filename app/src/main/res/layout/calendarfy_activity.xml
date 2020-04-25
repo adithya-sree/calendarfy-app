@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewmodel"
+            type="com.iota.calendarfy.ui.viewmodel.CalendarfyViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.CalendarfyActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#87CEEB"
+            android:gravity="start"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <SearchView
+                android:id="@+id/search_text"
+                android:theme="@style/AppSearchView"
+                android:gravity="start"
+                android:layout_width="380dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/more_option"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/view_more"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_more_vert_black_24dp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            app:refreshing="@{false}"
+            app:onRefreshListener="@{() -> viewmodel.refreshEvents()}"
+            android:id="@+id/swipe_refresh"
+            android:layout_marginTop="57dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/landingRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:indeterminateTint="#87CEEB"
+            android:layout_centerHorizontal="true"
+            android:visibility="@{viewmodel.isLoading ? View.VISIBLE : View.GONE}"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:visibility="@{viewmodel.isError() ? View.VISIBLE : View.GONE}"
+            android:text="@{viewmodel.errorMessage}"
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</layout>
